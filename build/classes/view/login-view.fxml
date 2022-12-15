@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: e0f3ff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
+    <bottom>
+        <VBox alignment="TOP_CENTER" prefHeight="139.0" prefWidth="629.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="sendLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleSendLogin" prefHeight="33.0" prefWidth="450.0" style="-fx-background-color: #009ec9;" text="Enviar" textAlignment="CENTER" textFill="#e8e8e8">
+                    <font>
+                        <Font name="DejaVu Sans Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="cancelLogin" cancelButton="true" mnemonicParsing="false" onAction="#handleCancelLogin" text="Cancelar" textFill="#4d4d4d">
+                    <font>
+                        <Font name="DejaVu Sans Bold" size="13.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="25.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+        </VBox>
+    </bottom>
+    <center>
+        <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="144.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Usuário" textFill="#535353">
+                    <font>
+                        <Font name="DejaVu Sans Bold" size="13.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="userId" promptText="User">
+                    <font>
+                        <Font name="DejaVu Sans Bold" size="18.0" />
+                    </font>
+                </TextField>
+                <Label text="Senha" textFill="#535353">
+                    <font>
+                        <Font name="DejaVu Sans Bold" size="13.0" />
+                    </font>
+                    <padding>
+                        <Insets top="5.0" />
+                    </padding>
+                </Label>
+                <TextField fx:id="password" promptText="Password">
+                    <font>
+                        <Font name="DejaVu Sans Bold" size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </TextField>
+            </children>
+            <padding>
+                <Insets left="75.0" right="75.0" />
+            </padding>
+        </VBox>
+    </center>
+    <top>
+        <VBox alignment="CENTER" prefHeight="91.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" text="Login" textAlignment="CENTER" textFill="#009ec9" wrapText="true">
+                    <font>
+                        <Font name="DejaVu Sans Bold" size="35.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="8.0" />
+                    </VBox.margin>
+                </Label>
+                <Line endX="100.0" startX="-100.0" stroke="#00033c" strokeWidth="2.0">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Line>
+            </children>
+        </VBox>
+    </top>
+</BorderPane>

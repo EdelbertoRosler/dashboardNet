@@ -4,26 +4,22 @@
  */
 package dao;
 
+import model.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import java.util.List;
 import java.util.Optional;
 
-/**
- *
- * @author Guilherme
- */
-public class TodoDao implements Dao {
+public class UsuarioDao implements Dao {
     
     //Acesso ao uniidade de persistência
-    private static final String PERSISTENCE_UNIT = "exemplo_10_11PU";
+    private static final String PERSISTENCE_UNIT = "financas";
 
     private EntityManager getEntityManager() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
         return factory.createEntityManager();
-
     }
 
     @Override
@@ -32,13 +28,15 @@ public class TodoDao implements Dao {
     }
 
     @Override
-    public List getAll() {
+    public List<Usuario> getAll() {
         
         EntityManager em = getEntityManager();
         
-        var todos = em.createNamedQuery("Todo.findAll").getResultList();
+        List todos = em.createNamedQuery("Usuario.findAll").getResultList();
         
         System.out.println(todos.size());
+        
+        em.close();
         
         return todos;        
         
@@ -46,7 +44,30 @@ public class TodoDao implements Dao {
 
     @Override
     public void save(Object t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        EntityManager em = getEntityManager();
+        
+        try {
+            em.getTransaction().begin();
+            em.persist(t);
+            em.getTransaction().commit();    
+        } catch(Exception e){
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }            
+    }
+
+    public Usuario getByUser(String user){
+        EntityManager em = getEntityManager();
+
+        Usuario usuario = em.createQuery(
+                        "SELECT u FROM usuario u WHERE u.nome = :nome", Usuario.class).
+                setParameter("nome", user).getSingleResult();
+
+        em.close();
+
+        return usuario;
     }
 
     @Override

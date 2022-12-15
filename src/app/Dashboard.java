@@ -26,13 +26,10 @@ public class Dashboard extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Dashboard.class.getResource("../view/Principal.fxml"));
+        FXMLLoader loader = new FXMLLoader(Dashboard.class.getResource("../view/login-view.fxml"));
         BorderPane rootLayout = (BorderPane) loader.load();
-        
         Scene scene = new Scene(rootLayout);
-        
-        stage.setTitle("Exemplo 10/11");
+        stage.setTitle("Login!");
         stage.setScene(scene);
         stage.show();
     }
