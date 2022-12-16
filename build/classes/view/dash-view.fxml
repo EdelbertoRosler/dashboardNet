@@ -38,7 +38,7 @@
                                                 <Insets top="6.0" />
                                             </padding>
                                         </Label>
-                                        <RadioButton fx:id="salary" layoutX="70.0" layoutY="37.0" mnemonicParsing="false" onAction="#radioSalary" selected="true" text="Receita" textFill="#178002">
+                                        <RadioButton fx:id="salary" layoutX="70.0" layoutY="37.0" mnemonicParsing="false" selected="true" text="Receita" textFill="#178002">
                                             <font>
                                                 <Font size="13.0" />
                                             </font>
@@ -46,24 +46,24 @@
                                     <ToggleGroup fx:id="financas" />
                                  </toggleGroup>
                                         </RadioButton>
-                                        <RadioButton fx:id="expense" layoutX="70.0" layoutY="71.0" mnemonicParsing="false" onAction="#radioExpense" text="Despesa" textFill="#ff1313" toggleGroup="$financas">
+                                        <RadioButton fx:id="expense" layoutX="70.0" layoutY="71.0" mnemonicParsing="false" text="Despesa" textFill="#ff1313" toggleGroup="$financas">
                                             <font>
                                                 <Font size="13.0" />
                                             </font>
                                         </RadioButton>
-                                        <TextField fx:id="fieldValue" layoutX="70.0" layoutY="160.0" onAction="#handleValue" promptText="Valor">
+                                        <TextField fx:id="fieldValue" layoutX="70.0" layoutY="160.0" promptText="Valor">
                                             <font>
                                                 <Font size="14.0" />
                                             </font>
                                         </TextField>
                                         <Button fx:id="send" layoutX="70.0" layoutY="283.0" mnemonicParsing="false" onAction="#handleSend" text="Enviar" />
                                         <Button fx:id="cancel" layoutX="465.0" layoutY="283.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancelar" />
-                                        <TextField fx:id="fieldDescription" layoutX="70.0" layoutY="212.0" onAction="#handleDescription" prefHeight="30.0" prefWidth="457.0" promptText="Descrição">
+                                        <TextField fx:id="fieldDescription" layoutX="70.0" layoutY="212.0" prefHeight="30.0" prefWidth="457.0" promptText="Descrição">
                                             <font>
                                                 <Font size="14.0" />
                                             </font>
                                         </TextField>
-                                        <ComboBox fx:id="category" layoutX="70.0" layoutY="115.0" onAction="#handleCategory" prefWidth="150.0" promptText="Categoria" />
+                                        <ComboBox fx:id="category" layoutX="70.0" layoutY="115.0" prefWidth="150.0" promptText="Categoria" />
                               <DatePicker fx:id="datePicker" layoutX="353.0" layoutY="115.0" promptText="Data da movimentação" />
                                     </children>
                                 </AnchorPane>
@@ -123,6 +123,21 @@
                         <Insets left="6.0" right="6.0" top="10.0" />
                     </VBox.margin>
                 </GridPane>
+            <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" textAlignment="CENTER" textFill="#009ec9" textOverrun="CLIP">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Ultima movimentação:" textAlignment="CENTER" textFill="#009ec9" textOverrun="CLIP">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="fieldMov" disable="true" prefHeight="30.0" prefWidth="457.0" promptText="Última movimentação">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Movimentações" textAlignment="CENTER" textFill="#009ec9" textOverrun="CLIP">
                     <font>
                         <Font size="18.0" />

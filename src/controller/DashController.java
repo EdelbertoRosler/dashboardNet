@@ -55,6 +55,9 @@ public class DashController {
     
     @FXML
     private DatePicker datePicker;
+    
+    @FXML
+    private TextField fieldMov;
 
     @FXML
     private TextField fieldValue;
@@ -94,28 +97,9 @@ public class DashController {
         
         List<Movimentacao> movSalvas = movimentacaoDao.getAll();
         popularColuna(movSalvas);
+        populaUltimaMov(movSalvas.get(movSalvas.size()-1));
         
         calcularSaldo(movSalvas);
-    }
-
-    @FXML
-    void radioSalary(ActionEvent event) {
-
-    }
-
-    @FXML
-    void radioExpense(ActionEvent event) {
-
-    }
-
-    @FXML
-    void ff1313(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleValue(ActionEvent event) {
-
     }
 
     @FXML
@@ -125,17 +109,8 @@ public class DashController {
 
     @FXML
     void handleCancel(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleDescription(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleCategory(ActionEvent event) {
-
+       fieldValue.setText("");
+       fieldDescription.setText("");
     }
     
     public void setStage(Stage stageDash) {
@@ -143,21 +118,27 @@ public class DashController {
     }
 
     private void calcularSaldo(List<Movimentacao> movimentacoes) {
-        Double saldo = 0.0;
+        Double saldoAtual = 0.0;
+        Double saldoPrevisto = 0.0;
         for(Movimentacao mov : movimentacoes){
-            if(mov.getTipo() == 1){
-               saldo = saldo + mov.getValor();
-           } else {
-               saldo = saldo - mov.getValor();
-           }
+            if(mov.getData().isBefore(LocalDate.now())){
+                if(mov.getTipo() == 1){
+                    saldoAtual = saldoAtual + mov.getValor();
+                } else if (mov.getTipo() == 2){
+                    saldoAtual = saldoAtual - mov.getValor();
+                }
+            } else {
+                if(mov.getTipo() == 1){
+                    saldoPrevisto = saldoPrevisto + mov.getValor();
+                } else if (mov.getTipo() == 2){
+                    saldoPrevisto = saldoPrevisto - mov.getValor();
+                }
+            }
+            
         }
-        DecimalFormat df = new DecimalFormat("0.00");
-        currentBalance.setText("R$ " + df.format(saldo));
-        if (saldo >= 0.0){
-            currentBalance.setTextFill(Color.color(0.5, 1, 0.5));
-        } else{
-            currentBalance.setTextFill(Color.color(1, 0, 0));
-        }
+        
+        configSaldoAtual(saldoAtual);
+        configSaldoPrevisto(saldoPrevisto);
     }
 
     private void popularColuna(List<Movimentacao> movSalvas) {
@@ -183,9 +164,9 @@ public class DashController {
             novaMov.setPago("N");
             
             movimentacaoDao.save(novaMov);
-            
+            movements.getItems().add(novaMov);
             List<Movimentacao> movSalvas = movimentacaoDao.getAll();
-            popularColuna(movSalvas);
+            populaUltimaMov(novaMov);
         
             calcularSaldo(movSalvas);
         }
@@ -194,7 +175,6 @@ public class DashController {
     private boolean criacaoValida() {
        return category.getValue() != "Categoria"
                && !"".equals(fieldValue.getText())
-               && !"".equals(fieldDescription.getText())
                && datePicker.getValue() != null;
     }
 
@@ -213,4 +193,40 @@ public class DashController {
         return categoria.get().getId();
     }
 
+    private void configSaldoAtual(Double saldo) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        currentBalance.setText("R$ " + df.format(saldo));
+        if (saldo >= 0.0){
+            currentBalance.setTextFill(Color.color(0.5, 1, 0.5));
+        } else{
+            currentBalance.setTextFill(Color.color(1, 0, 0));
+        }
+    }
+
+    private void configSaldoPrevisto(Double saldo) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        expectedBalance.setText("R$ " + df.format(saldo));
+        if (saldo >= 0.0){
+            expectedBalance.setTextFill(Color.color(0.5, 1, 0.5));
+        } else{
+            expectedBalance.setTextFill(Color.color(1, 0, 0));
+        }
+    }
+
+    private void populaUltimaMov(Movimentacao mov) {
+        String textoMov = "Data: " + mov.getData()
+                + " Tipo: " + getTipoMovimentacaoName(mov.getTipo())
+                + "Categoria: " + getCategoriaName(mov.getId())
+                +". Valor: R$ "+mov.getValor();
+        fieldMov.setText(textoMov);
+    }
+    
+    private String getTipoMovimentacaoName(int tipo){
+        return tipo == 1 ? "Receita" : "Despesa";
+    }
+
+    private String getCategoriaName(int id){
+        return categorias.stream()
+                .filter(c -> c.getId() == id).findFirst().get().getDescricao();
+    }
 }

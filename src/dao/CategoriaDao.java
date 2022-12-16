@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import model.Categoria;
 import model.Movimentacao;
+import model.Usuario;
 
 public class CategoriaDao implements Dao {
     
@@ -24,9 +25,21 @@ public class CategoriaDao implements Dao {
     }
 
     @Override
-    public Optional get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public Optional<Categoria> get(int id) {
+        EntityManager em = getEntityManager();
+        Categoria categoria;
+        
+        try {
+            categoria = em.createQuery(
+                            "SELECT c FROM categoria c WHERE c.id = :id", Categoria.class).
+                    setParameter("id",id).getSingleResult();   
+        } catch(Exception e){
+            return Optional.empty();
+        } finally {
+            em.close();
+        }   
+        
+        return Optional.of(categoria);    }
 
     @Override
     public List<Categoria> getAll() {
