@@ -58,16 +58,21 @@ public class UsuarioDao implements Dao {
         }            
     }
 
-    public Usuario getByUser(String user){
+    public Optional<Usuario> getByUser(String user){
         EntityManager em = getEntityManager();
-
-        Usuario usuario = em.createQuery(
-                        "SELECT u FROM usuario u WHERE u.nome = :nome", Usuario.class).
-                setParameter("nome", user).getSingleResult();
-
-        em.close();
-
-        return usuario;
+        Usuario usuario;
+        
+        try {
+            usuario = em.createQuery(
+                            "SELECT u FROM usuario u WHERE u.nome = :nome", Usuario.class).
+                    setParameter("nome", user).getSingleResult();   
+        } catch(Exception e){
+            return Optional.empty();
+        } finally {
+            em.close();
+        }   
+        
+        return Optional.of(usuario);
     }
 
     @Override

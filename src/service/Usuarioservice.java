@@ -1,6 +1,7 @@
 package service;
 
 import dao.UsuarioDao;
+import java.util.Optional;
 import model.Usuario;
 
 public class Usuarioservice {
@@ -12,15 +13,11 @@ public class Usuarioservice {
     }
 
     public boolean getUser(String nome, String senha){
-        Usuario usuario = usuarioDao.getByUser(nome);
+        Optional<Usuario> usuario = usuarioDao.getByUser(nome);
 
-        if (usuario.getSenha().equals(senha)){
-            System.out.println("Funcionou");
-            System.out.println("Usuario: " + usuario.getNome());
-            System.out.println("Senha: " + usuario.getSenha());
+        if (usuario.isPresent() &&usuario.get().getSenha().equals(senha)) {
             return true;
         }
-
         return false;
     }
 

@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class DashController {
 
@@ -41,6 +42,8 @@ public class DashController {
 
     @FXML
     private Button send;
+    
+    private Stage stage;
 
     @FXML
     void radioSalary(ActionEvent event) {
@@ -80,6 +83,10 @@ public class DashController {
     @FXML
     void handleCategory(ActionEvent event) {
 
+    }
+    
+    public void setStage(Stage stageDash) {
+        this.stage = stageDash;
     }
 
 
