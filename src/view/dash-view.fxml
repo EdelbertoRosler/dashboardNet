@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
@@ -63,6 +64,7 @@
                                             </font>
                                         </TextField>
                                         <ComboBox fx:id="category" layoutX="70.0" layoutY="115.0" onAction="#handleCategory" prefWidth="150.0" promptText="Categoria" />
+                              <DatePicker fx:id="datePicker" layoutX="353.0" layoutY="115.0" promptText="Data da movimentação" />
                                     </children>
                                 </AnchorPane>
                             </items>
@@ -131,10 +133,10 @@
                 </Label>
                 <TableView fx:id="movements" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="493.0" prefWidth="467.0">
                     <columns>
-                        <TableColumn prefWidth="92.0" text="tipo" />
-                        <TableColumn prefWidth="99.0" text="categoria" />
-                        <TableColumn prefWidth="107.0" text="data" />
-                        <TableColumn prefWidth="116.0" text="valor" />
+                        <TableColumn fx:id="tipoColum" prefWidth="92.0" text="tipo" />
+                        <TableColumn fx:id="categoriaColum" prefWidth="99.0" text="categoria" />
+                        <TableColumn fx:id="dataColum" prefWidth="107.0" text="data" />
+                        <TableColumn fx:id="valorColum" prefWidth="116.0" text="valor" />
                     </columns>
                     <VBox.margin>
                         <Insets bottom="6.0" left="6.0" right="6.0" />
