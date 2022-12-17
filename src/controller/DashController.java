@@ -1,9 +1,8 @@
 package Controller;
 
 
-import com.sun.tools.javac.tree.JCTree;
-import dao.CategoriaDao;
 import dao.MovimentacaoDao;
+import dao.TipoMovimentacaoDao;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,10 +21,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import model.Categoria;
 import model.Movimentacao;
+import model.TipoMovimentacao;
+import service.CategoriaService;
 
 public class DashController {
 
@@ -79,20 +79,25 @@ public class DashController {
    
     private Stage stage;
     
-    private CategoriaDao categoriaDao;
+    private CategoriaService categoriaService;
     
     private MovimentacaoDao movimentacaoDao;
     
+    private TipoMovimentacaoDao tipoMovimentacaoDao;
+    
     private List<Categoria> categorias;
+    private List<TipoMovimentacao> tiposMovimentacaoList;
     
     private ObservableList<Movimentacao> movimentacoes = FXCollections.observableArrayList();
     
     @FXML
     public void initialize() {
-        categoriaDao = new CategoriaDao();
+        tipoMovimentacaoDao = new TipoMovimentacaoDao();
+        categoriaService = new CategoriaService();
         movimentacaoDao = new MovimentacaoDao();
         
-        categorias = categoriaDao.getAll();
+        tiposMovimentacaoList = tipoMovimentacaoDao.getAll();
+        categorias = categoriaService.getAll();
         categorias.forEach(c -> category.getItems().add(c.getDescricao()));
         
         List<Movimentacao> movSalvas = movimentacaoDao.getAll();
@@ -122,15 +127,15 @@ public class DashController {
         Double saldoPrevisto = 0.0;
         for(Movimentacao mov : movimentacoes){
             if(mov.getData().isBefore(LocalDate.now())){
-                if(mov.getTipo() == 1){
+                if(mov.getTipoMovimentacao().getDescricao().equals("Receita")){
                     saldoAtual = saldoAtual + mov.getValor();
-                } else if (mov.getTipo() == 2){
+                } else if (mov.getTipoMovimentacao().getDescricao().equals("Despesa")){
                     saldoAtual = saldoAtual - mov.getValor();
                 }
             } else {
-                if(mov.getTipo() == 1){
+                if(mov.getTipoMovimentacao().getDescricao().equals("Receita")){
                     saldoPrevisto = saldoPrevisto + mov.getValor();
-                } else if (mov.getTipo() == 2){
+                } else if (mov.getTipoMovimentacao().getDescricao().equals("Despesa")){
                     saldoPrevisto = saldoPrevisto - mov.getValor();
                 }
             }
@@ -147,7 +152,7 @@ public class DashController {
         movements.getItems().addAll(movimentacoes);
         
         categoriaColum.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("categoria"));
-        tipoColum.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("tipo"));
+        tipoColum.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("tipoMovimentacao"));
         dataColum.setCellValueFactory(new PropertyValueFactory<Movimentacao, LocalDate>("data"));
         valorColum.setCellValueFactory(new PropertyValueFactory<Movimentacao, Double>("valor"));
     }
@@ -156,12 +161,11 @@ public class DashController {
         
         if(criacaoValida()){
             Movimentacao novaMov = new Movimentacao();
-            novaMov.setTipo(getTipo());
+            novaMov.setTipoMovimentacao(getTipo());
             novaMov.setCategoria(getCategoria());
             novaMov.setData(datePicker.getValue());
             novaMov.setValor(Double.parseDouble(fieldValue.getText()));
             novaMov.setDescricao(fieldDescription.getText());
-            novaMov.setPago("N");
             
             movimentacaoDao.save(novaMov);
             movements.getItems().add(novaMov);
@@ -178,19 +182,19 @@ public class DashController {
                && datePicker.getValue() != null;
     }
 
-    private int getTipo() {
-        if (salary.isSelected()){
-            return 1;
+    private TipoMovimentacao getTipo() {
+        if(salary.isSelected()){
+            return tiposMovimentacaoList.get(0);     
         } else{
-            return 2;
+            return tiposMovimentacaoList.get(1);
         }
     }
 
-    private int getCategoria() {
+    private Categoria getCategoria(){
         Optional<Categoria> categoria = categorias.stream()
                 .filter(c -> c.getDescricao() == category.getValue()).findFirst();
         
-        return categoria.get().getId();
+        return categoria.get();
     }
 
     private void configSaldoAtual(Double saldo) {
@@ -215,8 +219,8 @@ public class DashController {
 
     private void populaUltimaMov(Movimentacao mov) {
         String textoMov = "Data: " + mov.getData()
-                + " Tipo: " + getTipoMovimentacaoName(mov.getTipo())
-                + "Categoria: " + getCategoriaName(mov.getId())
+                + " Tipo: " + mov.getTipoMovimentacao().getDescricao()
+                + "Categoria: " + mov.getCategoria().getDescricao()
                 +". Valor: R$ "+mov.getValor();
         fieldMov.setText(textoMov);
     }

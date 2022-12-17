@@ -1,5 +1,7 @@
 package model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 
 import java.time.LocalDate;
 
@@ -19,32 +22,37 @@ public class Movimentacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int tipo;
-    private int categoria;
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoria")
+    private Categoria categoria;
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "tipoMovimentacao")
+    private TipoMovimentacao tipoMovimentacao;
     private LocalDate data;
     private double valor;
     private String descricao;
-    private String pago;
 
     public int getId() {
         return id;
     }
 
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-
-    public int getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(int categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
+
+    public TipoMovimentacao getTipoMovimentacao() {
+        return tipoMovimentacao;
+    }
+
+    public void setTipoMovimentacao(TipoMovimentacao tipoMovimentacao) {
+        this.tipoMovimentacao = tipoMovimentacao;
+    }
+    
+    
 
     public LocalDate getData() {
         return data;
@@ -58,10 +66,6 @@ public class Movimentacao {
         return descricao;
     }
 
-    public String getPago() {
-        return pago;
-    }
-
     public void setData(LocalDate data) {
         this.data = data;
     }
@@ -73,10 +77,5 @@ public class Movimentacao {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public void setPago(String pago) {
-        this.pago = pago;
-    }
-    
-    
+ 
 }

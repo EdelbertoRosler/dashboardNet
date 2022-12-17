@@ -1,15 +1,15 @@
 package model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 
-@Entity(name = "categoria")
-@NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM categoria c")
-public class Categoria {
+
+@Entity(name = "TIPO_MOVIMENTACAO")
+@NamedQuery(name = "TipoMovimentacao.findAll", query = "SELECT t FROM TIPO_MOVIMENTACAO t")
+public class TipoMovimentacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -22,9 +22,14 @@ public class Categoria {
     public String getDescricao() {
         return descricao;
     }
-    
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     @Override
     public String toString() {
         return descricao;
     }  
+    
 }
