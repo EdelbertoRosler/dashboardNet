@@ -1,0 +1,52 @@
+drop schema if exists financas;
+create schema financas;
+
+use financas;
+
+DROP TABLE IF EXISTS `categoria`;
+
+CREATE TABLE CATEGORIA (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+--
+-- Dumping data for table `categoria`
+--
+
+INSERT INTO CATEGORIA VALUES (1,'Alimentação'),(2,'Educação'),(3,'Esportes'),(4,'Lazer'),(5,'Moradia'),(6,'Outros'),(7,'Presentes'),(8,'Roupas'),(9,'Salário'),(10,'Saúde'),(11,'Transporte'),(12,'Viagem');
+
+DROP TABLE IF EXISTS `movimentacao`;
+
+CREATE TABLE TIPO_MOVIMENTACAO (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO TIPO_MOVIMENTACAO VALUES (1,'Receita'),(2,'Despesa');
+
+CREATE TABLE MOVIMENTACAO (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipoMovimentacao` int(11) NOT NULL,
+  `categoria` int(11) NOT NULL,
+  `data` date NOT NULL,
+  `valor` decimal(7,2) NOT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_categoria` FOREIGN KEY (`categoria`) REFERENCES CATEGORIA (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tipo` FOREIGN KEY (`tipoMovimentacao`) REFERENCES TIPO_MOVIMENTACAO (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+insert into MOVIMENTACAO (tipoMovimentacao, categoria, data, valor) values (1, 9, now(), 5000);
+
+CREATE TABLE USUARIO (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL UNIQUE,
+  `senha` VARCHAR(6) NOT NULL,
+  PRIMARY KEY (`id`));
+  
+  INSERT INTO USUARIO (nome, senha) VALUES ('teste','1234');
+  
+  select * from MOVIMENTACAO;
+  
