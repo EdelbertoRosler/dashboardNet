@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import jakarta.persistence.EntityManager;
@@ -14,7 +10,7 @@ import model.TipoMovimentacao;
 
 public class TipoMovimentacaoDao implements Dao {
     
-    //Acesso ao uniidade de persistência
+    //Acesso ao unidade de persistência
     private static final String PERSISTENCE_UNIT = "financas";
 
     private EntityManager getEntityManager() {

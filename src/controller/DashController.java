@@ -1,6 +1,5 @@
 package Controller;
 
-
 import dao.MovimentacaoDao;
 import dao.TipoMovimentacaoDao;
 import java.text.DecimalFormat;
@@ -11,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -28,6 +28,9 @@ import model.TipoMovimentacao;
 import service.CategoriaService;
 
 public class DashController {
+    
+    @FXML
+    private PieChart pieChartId;
 
     @FXML
     private Button cancel;
@@ -86,6 +89,7 @@ public class DashController {
     private TipoMovimentacaoDao tipoMovimentacaoDao;
     
     private List<Categoria> categorias;
+    
     private List<TipoMovimentacao> tiposMovimentacaoList;
     
     private ObservableList<Movimentacao> movimentacoes = FXCollections.observableArrayList();
@@ -105,6 +109,9 @@ public class DashController {
         populaUltimaMov(movSalvas.get(movSalvas.size()-1));
         
         calcularSaldo(movSalvas);
+        
+        viewPieChart();
+        
     }
 
     @FXML
@@ -173,6 +180,7 @@ public class DashController {
             populaUltimaMov(novaMov);
         
             calcularSaldo(movSalvas);
+            viewPieChart();
         }
     }
 
@@ -232,5 +240,32 @@ public class DashController {
     private String getCategoriaName(int id){
         return categorias.stream()
                 .filter(c -> c.getId() == id).findFirst().get().getDescricao();
+    }
+    
+    private void viewPieChart(){
+
+        List<Movimentacao> allMovs = movimentacaoDao.getAll();
+        
+        Double receita = 0.0;
+        Double despesa = 0.0;
+        for(Movimentacao mov : allMovs){
+            if(mov.getTipoMovimentacao().getDescricao().equals("Receita")){
+                receita = receita + mov.getValor();
+            } else despesa = despesa + mov.getValor();
+//            if (mov.getTipoMovimentacao().getDescricao().equals("Despesa")){
+//                
+//            }
+        }
+
+        ObservableList<PieChart.Data> PieChartData = FXCollections.observableArrayList(
+            new PieChart.Data("Receita", receita),
+            new PieChart.Data("Despesa", despesa)
+                
+        );
+        pieChartId.setAnimated(true);
+        
+        pieChartId.setData(PieChartData);
+       
+       
     }
 }

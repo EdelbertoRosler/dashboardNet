@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
@@ -20,7 +26,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashController">
     <center>
         <SplitPane dividerPositions="0.46935933147632314" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
             <items>
@@ -73,7 +79,11 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <PieChart layoutX="54.0" layoutY="-27.0" prefHeight="405.0" prefWidth="607.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <PieChart fx:id="pieChartId" layoutX="54.0" layoutY="-27.0" prefHeight="405.0" prefWidth="607.0" style="-fx-pie-color: blue;" title="Resumo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <styleClass>
+                        <String fx:value=".data0.chart-pie { -fx-pie-color: blue; }" />
+                        <String fx:value=".data1.chart-pie { -fx-pie-color: red; }" />
+                     </styleClass></PieChart>
                     </children>
                 </AnchorPane>
             </items>
@@ -120,7 +130,7 @@
                         <RowConstraints maxHeight="39.0" minHeight="12.0" prefHeight="25.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <VBox.margin>
-                        <Insets left="6.0" right="6.0" top="10.0" />
+                        <Insets left="6.0" right="6.0" top="-6.0" />
                     </VBox.margin>
                 </GridPane>
             <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" textAlignment="CENTER" textFill="#009ec9" textOverrun="CLIP">
@@ -132,11 +142,17 @@
                <font>
                   <Font size="18.0" />
                </font>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
             </Label>
             <TextField fx:id="fieldMov" disable="true" prefHeight="30.0" prefWidth="457.0" promptText="Última movimentação">
                <font>
                   <Font size="14.0" />
                </font>
+               <VBox.margin>
+                  <Insets left="6.0" right="6.0" />
+               </VBox.margin>
             </TextField>
                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Movimentações" textAlignment="CENTER" textFill="#009ec9" textOverrun="CLIP">
                     <font>
