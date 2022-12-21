@@ -164,10 +164,11 @@
                 </Label>
                 <TableView fx:id="movements" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="493.0" prefWidth="467.0">
                     <columns>
-                        <TableColumn fx:id="tipoColum" prefWidth="92.0" text="tipo" />
-                        <TableColumn fx:id="categoriaColum" prefWidth="99.0" text="categoria" />
-                        <TableColumn fx:id="dataColum" prefWidth="107.0" text="data" />
-                        <TableColumn fx:id="valorColum" prefWidth="116.0" text="valor" />
+                        <TableColumn fx:id="tipoColum" prefWidth="88.0" text="tipo" />
+                        <TableColumn fx:id="categoriaColum" prefWidth="88.0" text="categoria" />
+                        <TableColumn fx:id="dataColum" prefWidth="88.0" text="data" />
+                        <TableColumn fx:id="valorColum" prefWidth="88.0" text="valor" />
+                  <TableColumn fx:id="valorColum1" prefWidth="62.0" text="excluir" />
                     </columns>
                     <VBox.margin>
                         <Insets bottom="6.0" left="6.0" right="6.0" />

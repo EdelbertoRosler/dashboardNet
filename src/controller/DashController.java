@@ -252,20 +252,15 @@ public class DashController {
             if(mov.getTipoMovimentacao().getDescricao().equals("Receita")){
                 receita = receita + mov.getValor();
             } else despesa = despesa + mov.getValor();
-//            if (mov.getTipoMovimentacao().getDescricao().equals("Despesa")){
-//                
-//            }
         }
 
         ObservableList<PieChart.Data> PieChartData = FXCollections.observableArrayList(
             new PieChart.Data("Receita", receita),
             new PieChart.Data("Despesa", despesa)
-                
         );
         pieChartId.setAnimated(true);
         
         pieChartId.setData(PieChartData);
-       
-       
     }
+    
 }
