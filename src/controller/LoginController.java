@@ -2,7 +2,7 @@ package Controller;
 
 import app.Dashboard;
 import java.io.IOException;
-import service.Usuarioservice;
+import service.UsuarioService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,10 +28,10 @@ public class LoginController {
     
     private Dashboard main;
 
-    private Usuarioservice usuarioservice;
+    private UsuarioService usuarioservice;
 
     public LoginController() {
-        this.usuarioservice = new Usuarioservice();
+        this.usuarioservice = new UsuarioService();
     }
 
     @FXML

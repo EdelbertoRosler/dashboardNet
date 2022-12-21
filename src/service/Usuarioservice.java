@@ -4,11 +4,11 @@ import dao.UsuarioDao;
 import java.util.Optional;
 import model.Usuario;
 
-public class Usuarioservice {
+public class UsuarioService {
 
     private UsuarioDao usuarioDao;
 
-    public Usuarioservice() {
+    public UsuarioService() {
         this.usuarioDao = new UsuarioDao();
     }
 
