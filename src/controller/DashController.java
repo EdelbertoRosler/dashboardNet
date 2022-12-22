@@ -1,4 +1,4 @@
-package controller;
+package Controller;
 
 import dao.MovimentacaoDao;
 import dao.TipoMovimentacaoDao;
@@ -115,6 +115,8 @@ public class DashController {
     @FXML
     void handleSend(ActionEvent event) {
         salvarMovimentacao();
+        fieldValue.setText("");
+        fieldDescription.setText("");
     }
 
     @FXML
@@ -138,11 +140,13 @@ public class DashController {
         Double saldoAtual = 0.0;
         Double saldoPrevisto = 0.0;
         for(Movimentacao mov : movimentacoes){
-            if(mov.getData().isBefore(LocalDate.now())){
+            if(mov.getData().isBefore(LocalDate.now()) || mov.getData().isEqual(LocalDate.now()) ){
                 if(mov.getTipoMovimentacao().getDescricao().equals("Receita")){
                     saldoAtual = saldoAtual + mov.getValor();
+                    saldoPrevisto = saldoPrevisto + mov.getValor();
                 } else if (mov.getTipoMovimentacao().getDescricao().equals("Despesa")){
                     saldoAtual = saldoAtual - mov.getValor();
+                    saldoPrevisto = saldoPrevisto - mov.getValor();
                 }
             } else {
                 if(mov.getTipoMovimentacao().getDescricao().equals("Receita")){
@@ -256,7 +260,6 @@ public class DashController {
             if(mov.getTipoMovimentacao().getDescricao().equals("Receita")){
                 receita = receita + mov.getValor();
             } else despesa = despesa + mov.getValor();
-
         }
 
         ObservableList<PieChart.Data> PieChartData = FXCollections.observableArrayList(

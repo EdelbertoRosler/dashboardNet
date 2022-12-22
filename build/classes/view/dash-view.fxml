@@ -27,7 +27,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DashController">
     <center>
         <SplitPane dividerPositions="0.46935933147632314" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
             <items>
@@ -63,8 +63,10 @@
                                                 <Font size="14.0" />
                                             </font>
                                         </TextField>
-                                        <Button fx:id="send" layoutX="70.0" layoutY="283.0" mnemonicParsing="false" onAction="#handleSend" text="Enviar" />
-                                        <Button fx:id="delete" layoutX="395.0" layoutY="283.0" mnemonicParsing="false" onAction="#handleDelete" text="Excluir Movimentação" />
+                                        <Button fx:id="send" layoutX="70.0" layoutY="283.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleSend" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #009ec9;" text="Enviar" textFill="#e4e4e4">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Button>
                                         <TextField fx:id="fieldDescription" layoutX="70.0" layoutY="212.0" prefHeight="30.0" prefWidth="457.0" promptText="Descrição">
                                             <font>
                                                 <Font size="14.0" />
@@ -160,9 +162,14 @@
                         <Font size="18.0" />
                     </font>
                     <VBox.margin>
-                        <Insets bottom="8.0" left="150.0" top="100.0" />
+                        <Insets bottom="8.0" left="150.0" top="50.0" />
                     </VBox.margin>
                 </Label>
+                      <Button fx:id="delete" mnemonicParsing="false" onAction="#handleDelete" text="Excluir Movimentação">
+               <VBox.margin>
+                  <Insets bottom="6.0" left="6.0" top="6.0" />
+               </VBox.margin>
+            </Button>
                 <TableView fx:id="movements" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="493.0" prefWidth="467.0">
                     <columns>
                         <TableColumn fx:id="tipoColum" prefWidth="88.0" text="tipo" />
