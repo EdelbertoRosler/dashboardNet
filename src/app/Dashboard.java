@@ -1,7 +1,7 @@
 package app;
 
-import Controller.DashController;
-import Controller.LoginController;
+import controller.DashController;
+import controller.LoginController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

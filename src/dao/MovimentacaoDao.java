@@ -73,6 +73,22 @@ public class MovimentacaoDao implements Dao {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+   
+    public void delete(int id) {
+        EntityManager em = getEntityManager();
+        
+        try {
+            em.getTransaction().begin();
+            Movimentacao movimentacao = em.find(Movimentacao.class, id);
+            em.remove(movimentacao);
+            em.getTransaction().commit();    
+        } catch(Exception e){
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }      
+    }
+
     @Override
     public void delete(Object t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import dao.MovimentacaoDao;
 import dao.TipoMovimentacaoDao;
@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -28,12 +29,12 @@ import model.TipoMovimentacao;
 import service.CategoriaService;
 
 public class DashController {
-    
+
     @FXML
     private PieChart pieChartId;
 
     @FXML
-    private Button cancel;
+    private Button delete;
 
     @FXML
     private Label currentBalance;
@@ -89,7 +90,6 @@ public class DashController {
     private TipoMovimentacaoDao tipoMovimentacaoDao;
     
     private List<Categoria> categorias;
-    
     private List<TipoMovimentacao> tiposMovimentacaoList;
     
     private ObservableList<Movimentacao> movimentacoes = FXCollections.observableArrayList();
@@ -108,10 +108,8 @@ public class DashController {
         popularColuna(movSalvas);
         populaUltimaMov(movSalvas.get(movSalvas.size()-1));
         
-        calcularSaldo(movSalvas);
-        
+        calcularSaldo();
         viewPieChart();
-        
     }
 
     @FXML
@@ -120,16 +118,23 @@ public class DashController {
     }
 
     @FXML
-    void handleCancel(ActionEvent event) {
-       fieldValue.setText("");
-       fieldDescription.setText("");
+    void handleDelete(ActionEvent event) {
+        Movimentacao movimentacaoSelecionada = movements.getSelectionModel().getSelectedItem();
+        if(movimentacaoSelecionada != null){
+            movimentacaoDao.delete(movimentacaoSelecionada.getId());
+            movements.getItems().remove(movimentacaoSelecionada);
+            populaUltimaMov(movimentacoes.get(movimentacoes.size() - 1));
+            calcularSaldo();
+            viewPieChart();
+        }
     }
     
     public void setStage(Stage stageDash) {
         this.stage = stageDash;
     }
 
-    private void calcularSaldo(List<Movimentacao> movimentacoes) {
+    private void calcularSaldo() {
+        List<Movimentacao> movimentacoes = movimentacaoDao.getAll();
         Double saldoAtual = 0.0;
         Double saldoPrevisto = 0.0;
         for(Movimentacao mov : movimentacoes){
@@ -176,10 +181,9 @@ public class DashController {
             
             movimentacaoDao.save(novaMov);
             movements.getItems().add(novaMov);
-            List<Movimentacao> movSalvas = movimentacaoDao.getAll();
             populaUltimaMov(novaMov);
         
-            calcularSaldo(movSalvas);
+            calcularSaldo();
             viewPieChart();
         }
     }
@@ -241,31 +245,28 @@ public class DashController {
         return categorias.stream()
                 .filter(c -> c.getId() == id).findFirst().get().getDescricao();
     }
-    
+
     private void viewPieChart(){
 
         List<Movimentacao> allMovs = movimentacaoDao.getAll();
-        
+
         Double receita = 0.0;
         Double despesa = 0.0;
         for(Movimentacao mov : allMovs){
             if(mov.getTipoMovimentacao().getDescricao().equals("Receita")){
                 receita = receita + mov.getValor();
             } else despesa = despesa + mov.getValor();
-//            if (mov.getTipoMovimentacao().getDescricao().equals("Despesa")){
-//                
-//            }
+
         }
 
         ObservableList<PieChart.Data> PieChartData = FXCollections.observableArrayList(
             new PieChart.Data("Receita", receita),
             new PieChart.Data("Despesa", despesa)
-                
+
         );
         pieChartId.setAnimated(true);
-        
+
         pieChartId.setData(PieChartData);
-       
-       
     }
+    
 }
